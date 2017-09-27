@@ -99,6 +99,9 @@ running `docker-compose` as follows:
              KAFKA_LOG_CLEANUP_POLICY=compact \
              KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
     $ docker-compose up -d kafka schema-registry postgres
+    $ docker-compose run --rm kafka-topics --create --topic test \
+             --partitions=1 --replication-factor=1 \
+             --add-config cleanup.policy=compact --add-config segment.ms=100 --add-config min.cleanable.dirty.ratio=0.01
 
 The `postgres-bw` image extends the
 [official Postgres docker image](https://registry.hub.docker.com/_/postgres/) and adds
@@ -119,14 +122,14 @@ You can keep the psql terminal open, and run the following in a new terminal.
 The next step is to start the Bottled Water client, which relays data from Postgres to Kafka.
 You start it like this:
 
-    $ docker-compose up -d bottledwater-avro
+    $ docker-compose up -d bottledwater-json
 
-You can run `docker-compose logs bottledwater-avro` to see what it's doing. Now Bottled
+You can run `docker-compose logs bottledwater-json` to see what it's doing. Now Bottled
 Water has taken the snapshot, and continues to watch Postgres for any data changes. You can
 see the data that has been extracted from Postgres by consuming from Kafka (the topic name
 `test` must match up with the name of the table you created earlier):
 
-    $ docker-compose run --rm kafka-avro-console-consumer \
+    $ docker-compose run --rm kafka-console-consumer \
         --from-beginning --property print.key=true --topic test
 
 This should print out the contents of the `test` table in JSON format (key/value separated

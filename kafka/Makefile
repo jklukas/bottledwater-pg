@@ -5,7 +5,7 @@ STATICLIB=../client/libbottledwater.a
 PG_CFLAGS = -I$(shell pg_config --includedir) -I$(shell pg_config --includedir-server)
 PG_LDFLAGS = -L$(shell pg_config --libdir) -lpq
 KAFKA_CFLAGS =
-KAFKA_LDFLAGS = -lrdkafka -lz -lpthread # TODO -lrt needed on Linux for clock_gettime, but not on OSX?
+KAFKA_LDFLAGS = -lrdkafka -lpthread # TODO -lrt needed on Linux for clock_gettime, but not on OSX?
 AVRO_1_8 = $(shell pkg-config --atleast-version=1.8.0 avro-c && echo -DAVRO_1_8)
 AVRO_CFLAGS = $(shell pkg-config --cflags avro-c) $(AVRO_1_8)
 AVRO_LDFLAGS = $(shell pkg-config --libs avro-c)
