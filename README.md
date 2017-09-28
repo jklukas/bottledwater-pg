@@ -101,7 +101,7 @@ running `docker-compose` as follows:
     $ docker-compose up -d kafka schema-registry postgres
     $ docker-compose run --rm kafka-topics --create --topic test \
              --partitions=1 --replication-factor=1 \
-             --add-config cleanup.policy=compact --add-config segment.ms=100 --add-config min.cleanable.dirty.ratio=0.01
+             --config cleanup.policy=compact --config segment.ms=100 --config min.cleanable.dirty.ratio=0.01
 
 The `postgres-bw` image extends the
 [official Postgres docker image](https://registry.hub.docker.com/_/postgres/) and adds
